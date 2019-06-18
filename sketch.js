@@ -1,10 +1,11 @@
 let intercept = 0;
 let slope = 0;
 
-let maxTime = 5 / 3600;
-let travel = 500;
+let maxTime = 4 * 60 * 60;
+let maxTravel = 600;
+console.log(maxTime);
 
-let height = 400;
+let height = 450;
 let width = 600;
 
 function setup() {
@@ -13,15 +14,26 @@ function setup() {
 }
 
 function predict(slope){
-  return height * slope + intercept;
+  return width * slope + intercept;
 }
 
 function drawTexts(){
   stroke(0);
   textSize(15);
   fill(100);
+  
   text('Time', 10, 20);
-  text('Travel', width - 60 , height - 10);
+  text('Travel', width - 60 , height - 30);
+  
+  for(let i = 0; i <= width; i += 100){
+	  text(i + " km", i, height -5);
+  }
+
+  for(let i = height; i >= 0; i -= 100){
+	  text((height-i)/100 + " h", 10, i);
+  }
+  
+  
   fill(150, 0, 0);
 }
 
@@ -30,11 +42,11 @@ function draw(slope) {
   stroke(255, 255, 255);
   strokeWeight(2);
 
-  let y_pred = predict(slope); // max_y for trendline  
-  console.log(y_pred);
+  // let y = predict(slope); // max_y for trendline  
+  let y = width * slope;
+  console.log(y);
 
-  //line(width, y_pred, 0, intercept); // trendline
-  line(width, (height - y_pred), 0, height); // trendline  
+  line(width, y, 0, height); // trendline  
   drawTexts();
   noLoop();
 }
