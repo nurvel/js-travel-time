@@ -17,36 +17,23 @@ function predict(slope){
   return width * slope + intercept;
 }
 
-function drawTexts(){
-  stroke(0);
-  textSize(15);
-  fill(100);
-  
-  text('Time', 10, 20);
-  text('Travel', width - 60 , height - 30);
-  
-  for(let i = 0; i <= width; i += 100){
-	  text(i + " km", i, height -5);
-  }
-
-  for(let i = height; i >= 0; i -= 100){
-	  text((height-i)/100 + " h", 10, i);
-  }
-  
-  
-  fill(150, 0, 0);
-}
-
-function draw(slope) {
+function draw(slope, speedingSlope) {
+  if(slope == null){slope = 0;}
   background(0);
   stroke(255, 255, 255);
   strokeWeight(2);
 
-  // let y = predict(slope); // max_y for trendline  
-  let y = width * slope;
-  console.log(y);
+  console.log("km/h: " + slope);
+  let y = width / slope * 100;  
+  let ySpeeding = width / speedingSlope * 100;  
 
-  line(width, y, 0, height); // trendline  
+  //let y = predict(slope); // max_y for trendline  
+  console.log(": " + y);
+
+  line(width, height - y, 0, height); // speed
+  line(width, height - ySpeeding, 0, height); // speed
+
+  
   drawTexts();
   noLoop();
 }
@@ -60,11 +47,32 @@ function timeWon (speedLimit, speedOver, distance) {
 	let limSec = distance/(speedLimit/3600);
 	let diffSec = limSec - actSec;
 	
-	draw(diffSec);
-	draw(kmPerHour(speedLimit));
+	//draw(diffSec);
+	let speeding = speedLimit+speedOver;
+	draw(speedLimit, speeding);
 	
 	return timeConvert(diffSec);
 }
+
+function drawTexts(){
+  stroke(0);
+  textSize(15);
+  fill(200);
+  
+  text('Time', 10, 20);
+  text('Travel', width - 60 , height - 30);
+  
+  for(let i = 0; i <= width; i += 100){
+	  text(i + " km", i, height -5);
+  }
+
+  for(let i = height; i >= 0; i -= 100){
+	  text((height-i)/100 + " h", 10, i);
+  }
+  
+  fill(150, 0, 0);
+}
+
 
 function diffMinPerKm(speedLimit, speedOver) {
 	return timeWon(speedLimit, speedOver, 1);
@@ -77,6 +85,7 @@ function timeConvert (seconds) {
 	let s = Math.floor(totalSeconds % 60);
 	return {'hours': h, 'minutes': m, 'seconds': s}
 };
+
 
 // console.log(timeWon(120, 30, 100));
 // console.log(diffMinPerKm(120, 130));
