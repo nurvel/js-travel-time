@@ -10,6 +10,7 @@ let width = 600;
 let slider;
 let sliderOverSpeed;
 
+let mouseLock = false;
 
 
 
@@ -62,7 +63,9 @@ function timeConvert(seconds) {
 // }
 
 
-
+function mouseClicked() {
+  mouseLock = mouseLock ? false : true;
+}
 
 
 function setup() {
@@ -99,21 +102,29 @@ function draw() {
   fill(200);
   let maxY = 20;
   let maxX = width - 100;
+
   let ytimeWon = height - (mouseX / (speeding + slope) * 100) < maxY ? maxY : height - (mouseX / (speeding + slope) * 100);
   let xtimeWon = mouseX > maxX ? maxX : mouseX;
+
+  ytimeWon = height - (mouseX / (speeding + slope) * 100) < maxY ? maxY : height - (mouseX / (speeding + slope) * 100);
+  xtimeWon = mouseX > maxX ? maxX : mouseX;
 
   text("speedlimit: " + slope + " km/h", 450, 280);
   text("speeding: " + speeding + " km/h", 450, 325);
 
   if (timeWonObj.hours === 0) {
-    text(timeWonObj.minutes + " min " + timeWonObj.seconds + " sec faster", xtimeWon, ytimeWon + 20);
+    text("time won: " + timeWonObj.minutes + " min " + timeWonObj.seconds, xtimeWon, ytimeWon + 20);
   } else {
-    text(timeWonObj.hours + " h " + timeWonObj.minutes + " min " + timeWonObj.seconds + " sec faster", xtimeWon, ytimeWon + 20);
+    text("time won: " + timeWonObj.hours + " h " + timeWonObj.minutes + " min " + timeWonObj.seconds , xtimeWon, ytimeWon + 20);
   }
 
-  let driveTime = Math.floor((height - ytimeWon) / 100);
 
-  text("drive time: " + driveTime, xtimeWon, ytimeWon + 40);
+  let driveTime = (height - ytimeWon) / 100;
+  driveTime = Math.round(driveTime * 100) / 100;
+  let driveTimeObj = timeConvert(driveTime * 60 * 60);
+
+
+  text("drive time: " + driveTimeObj.hours + " h " + driveTimeObj.minutes + " min", xtimeWon, ytimeWon + 40);
   text("distance: " + mouseX + " km", xtimeWon, ytimeWon + 60);
 
 
