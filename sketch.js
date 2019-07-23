@@ -113,9 +113,9 @@ function draw() {
   text("speeding: " + speeding + " km/h", 450, 325);
 
   if (timeWonObj.hours === 0) {
-    text("time won: " + timeWonObj.minutes + " min " + timeWonObj.seconds, xtimeWon, ytimeWon + 20);
+    text("time won: " + timeWonObj.minutes + " min " + timeWonObj.seconds + " sec" , xtimeWon, ytimeWon + 20);
   } else {
-    text("time won: " + timeWonObj.hours + " h " + timeWonObj.minutes + " min " + timeWonObj.seconds , xtimeWon, ytimeWon + 20);
+    text("time won: " + timeWonObj.hours + " h " + timeWonObj.minutes + " min " + timeWonObj.seconds + " sec" , xtimeWon, ytimeWon + 20);
   }
 
 
